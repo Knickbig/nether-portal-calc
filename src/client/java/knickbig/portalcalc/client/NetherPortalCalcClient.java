@@ -1,50 +1,53 @@
 package knickbig.portalcalc.client;
-import net.minecraft.world.level.Level;
+
+import net.minecraft.client.Minecraft;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+
+import static net.minecraft.world.level.Level.NETHER;
+import static net.minecraft.world.level.Level.OVERWORLD;
 
 public class NetherPortalCalcClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(
-                    ClientCommandManager.literal("CalcPortal")
-                            .executes(context -> {
-                                var player = Minecraft.getInstance().player;
-                                PlayerPos playerPos = new PlayerPos(player);
-                                if (player.level().dimension() == Level.NETHER) {
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher,
+                                                          registryAccess) -> dispatcher.register(
+                ClientCommandManager.literal("CalcPortal")
+                        .executes(context -> {
+                            assert Minecraft.getInstance().player != null;
+                            PlayerPos player = new PlayerPos(Minecraft.getInstance().player);
+                            if (player.dimension == NETHER) {
 
-                                    String s = "Overworld Coordinates  " +
-                                            "X: " +
-                                            Math.round(playerPos.XPos * 8) + " Y: " +
-                                            Math.round(playerPos.YPos) + " Z: " +
-                                            Math.round(playerPos.ZPos * 8);
+                                String s = "Overworld Coordinates  " +
+                                        "X: " +
+                                        Math.round(player.XPos * 8) + " Y: " +
+                                        Math.round(player.YPos) + " Z: " +
+                                        Math.round(player.ZPos * 8);
 
-                                    player.displayClientMessage(
-                                            Component.literal(s),
-                                            false
-                                    );
+                                player.localPlayer.displayClientMessage(
+                                        Component.literal(s),
+                                        false
+                                );
 
-                                } else if (player.level().dimension() == Level.OVERWORLD) {
+                            } else if (player.dimension == OVERWORLD) {
 
-                                    String s = "Nether Coordinates  " +
-                                            "X: " +
-                                            Math.round(playerPos.XPos / 8) + " Y: " +
-                                            Math.round(playerPos.YPos) + " Z: " +
-                                            Math.round(playerPos.ZPos / 8);
+                                String s = "Nether Coordinates  " +
+                                        "X: " +
+                                        Math.round(player.XPos / 8) + " Y: " +
+                                        Math.round(player.YPos) + " Z: " +
+                                        Math.round(player.ZPos / 8);
 
-                                    player.displayClientMessage(
-                                            Component.literal(s),
-                                            false
-                                    );
-                                }
+                                player.localPlayer.displayClientMessage(
+                                        Component.literal(s),
+                                        false
+                                );
+                            }
 
-                                return 1;
-                            })
-            );
-        });
+                            return 1;
+                        })
+        ));
 
-}}
+    }
+}
