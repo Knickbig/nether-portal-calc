@@ -11,7 +11,7 @@ public class NetherPortalCalcClient implements ClientModInitializer {
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
             String text = message.getString();
 
-            if (text.startsWith("!nethercalc")) {
+            if (text.startsWith("nethercalc")) {
                 assert Minecraft.getInstance().player != null;
                 PlayerPos playerPos = new PlayerPos(Minecraft.getInstance().player);
                 String s = "Deine Koordinaten für das Portal im Nether sind: " +
