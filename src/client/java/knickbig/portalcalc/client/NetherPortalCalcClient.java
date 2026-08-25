@@ -23,39 +23,41 @@ public class NetherPortalCalcClient implements ClientModInitializer {
     }
 
     private static int calculateCoords(PlayerData playerData) {
+        try {
+            double calculatedX = playerData.XPos;
+            double calculatedZ = playerData.ZPos;
+            String dimension = "";
 
-        double calculatedX = 0;
-        double calculatedZ = 0;
-        String dimension = "";
+            if (playerData.dimension == END) {
+                playerData.localPlayer.displayClientMessage(
+                        Component.literal("Portal calculation is not available in the End."),
+                        false
+                );
 
-        if (playerData.dimension == END) {
+                return 1;
+
+            } else if (playerData.dimension == NETHER) {
+                calculatedX *= 8;
+                calculatedZ *= 8;
+                dimension = "Overworld";
+
+            } else if (playerData.dimension == OVERWORLD) {
+                calculatedX /= 8;
+                calculatedZ /= 8;
+                dimension = "Nether";
+
+            }
+
             playerData.localPlayer.displayClientMessage(
-                    Component.literal("Portal calculation is not available in the End."),
+                    Component.literal(dimension + " Coordinates  " +
+                            "X: " + Math.round(calculatedX) +
+                            " Y: " + Math.round(playerData.YPos) +
+                            " Z: " + Math.round(calculatedZ)),
                     false
             );
-
             return 1;
-
-        } else if (playerData.dimension == NETHER) {
-            calculatedX = playerData.XPos * 8;
-            calculatedZ = playerData.ZPos * 8;
-            dimension = "Overworld";
-
-        } else if (playerData.dimension == OVERWORLD) {
-            calculatedX = playerData.XPos / 8;
-            calculatedZ = playerData.ZPos / 8;
-            dimension = "Nether";
-
+        } catch (Exception e) {
+            return 0;
         }
-
-        playerData.localPlayer.displayClientMessage(
-                Component.literal(dimension + " Coordinates  " +
-                        "X: " + Math.round(calculatedX) +
-                        " Y: " + Math.round(playerData.YPos) +
-                        " Z: " + Math.round(calculatedZ)),
-                false
-        );
-
-        return 1;
     }
 }
