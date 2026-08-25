@@ -8,7 +8,7 @@ public class PlayerPos {
     public double YPos;
     public double ZPos;
 
-    public  PlayerPos(LocalPlayer player) {
+    public PlayerPos(LocalPlayer player) {
         this.player = player;
         this.XPos = player.getX();
         this.YPos = player.getY();

@@ -16,15 +16,13 @@ public class NetherPortalCalcClient implements ClientModInitializer {
                 PlayerPos playerPos = new PlayerPos(Minecraft.getInstance().player);
                 String s = "Deine Koordinaten für das Portal im Nether sind: " +
                         Math.round(playerPos.XPos / 8) + ", " +
-                        playerPos.YPos + ", " +
+                        Math.round(playerPos.YPos) + ", " +
                         Math.round(playerPos.ZPos / 8) + ".";
 
                 playerPos.player.displayClientMessage(
                         Component.literal(s),
                         false
                 );
-
-
             }
         });
     }
