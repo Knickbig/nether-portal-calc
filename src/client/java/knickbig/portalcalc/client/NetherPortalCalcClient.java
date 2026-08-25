@@ -18,36 +18,34 @@ public class NetherPortalCalcClient implements ClientModInitializer {
                         .executes(context -> {
                             assert Minecraft.getInstance().player != null;
                             PlayerData playerData = new PlayerData(Minecraft.getInstance().player);
-                            if (playerData.dimension == NETHER) {
-
-                                String s = "Overworld Coordinates  " +
-                                        "X: " +
-                                        Math.round(playerData.XPos * 8) + " Y: " +
-                                        Math.round(playerData.YPos) + " Z: " +
-                                        Math.round(playerData.ZPos * 8);
-
-                                playerData.localPlayer.displayClientMessage(
-                                        Component.literal(s),
-                                        false
-                                );
-
-                            } else if (playerData.dimension == OVERWORLD) {
-
-                                String s = "Nether Coordinates  " +
-                                        "X: " +
-                                        Math.round(playerData.XPos / 8) + " Y: " +
-                                        Math.round(playerData.YPos) + " Z: " +
-                                        Math.round(playerData.ZPos / 8);
-
-                                playerData.localPlayer.displayClientMessage(
-                                        Component.literal(s),
-                                        false
-                                );
-                            }
-
-                            return 1;
+                            return calculateCoords(playerData);
                         })
         ));
+    }
 
+    private static int calculateCoords(PlayerData playerData) {
+        double calculatedX = 0;
+        double calculatedZ = 0;
+        String dimension = "";
+
+        if (playerData.dimension == NETHER) {
+            calculatedX = playerData.XPos * 8;
+            calculatedZ = playerData.ZPos * 8;
+            dimension = "Overworld";
+
+        } else if (playerData.dimension == OVERWORLD) {
+            calculatedX = playerData.XPos / 8;
+            calculatedZ = playerData.ZPos / 8;
+            dimension = "Nether";
+        }
+
+        playerData.localPlayer.displayClientMessage(
+                Component.literal(dimension + " Coordinates  " +
+                        "X: " + Math.round(calculatedX) +
+                        " Y: " + Math.round(playerData.YPos) +
+                        " Z: " + Math.round(calculatedZ)),
+                false
+        );
+        return 1;
     }
 }
