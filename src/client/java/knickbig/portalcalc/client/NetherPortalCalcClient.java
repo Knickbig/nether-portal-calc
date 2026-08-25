@@ -6,8 +6,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.minecraft.network.chat.Component;
 
-import static net.minecraft.world.level.Level.NETHER;
-import static net.minecraft.world.level.Level.OVERWORLD;
+import static net.minecraft.world.level.Level.*;
 
 public class NetherPortalCalcClient implements ClientModInitializer {
     @Override
@@ -24,11 +23,20 @@ public class NetherPortalCalcClient implements ClientModInitializer {
     }
 
     private static int calculateCoords(PlayerData playerData) {
+
         double calculatedX = 0;
         double calculatedZ = 0;
         String dimension = "";
 
-        if (playerData.dimension == NETHER) {
+        if (playerData.dimension == END) {
+            playerData.localPlayer.displayClientMessage(
+                    Component.literal("Portal calculation is not available in the End."),
+                    false
+            );
+
+            return 1;
+
+        } else if (playerData.dimension == NETHER) {
             calculatedX = playerData.XPos * 8;
             calculatedZ = playerData.ZPos * 8;
             dimension = "Overworld";
@@ -37,6 +45,7 @@ public class NetherPortalCalcClient implements ClientModInitializer {
             calculatedX = playerData.XPos / 8;
             calculatedZ = playerData.ZPos / 8;
             dimension = "Nether";
+
         }
 
         playerData.localPlayer.displayClientMessage(
@@ -46,6 +55,7 @@ public class NetherPortalCalcClient implements ClientModInitializer {
                         " Z: " + Math.round(calculatedZ)),
                 false
         );
+
         return 1;
     }
 }
