@@ -17,29 +17,29 @@ public class NetherPortalCalcClient implements ClientModInitializer {
                 ClientCommandManager.literal("CalcPortal")
                         .executes(context -> {
                             assert Minecraft.getInstance().player != null;
-                            PlayerPos player = new PlayerPos(Minecraft.getInstance().player);
-                            if (player.dimension == NETHER) {
+                            PlayerData playerData = new PlayerData(Minecraft.getInstance().player);
+                            if (playerData.dimension == NETHER) {
 
                                 String s = "Overworld Coordinates  " +
                                         "X: " +
-                                        Math.round(player.XPos * 8) + " Y: " +
-                                        Math.round(player.YPos) + " Z: " +
-                                        Math.round(player.ZPos * 8);
+                                        Math.round(playerData.XPos * 8) + " Y: " +
+                                        Math.round(playerData.YPos) + " Z: " +
+                                        Math.round(playerData.ZPos * 8);
 
-                                player.localPlayer.displayClientMessage(
+                                playerData.localPlayer.displayClientMessage(
                                         Component.literal(s),
                                         false
                                 );
 
-                            } else if (player.dimension == OVERWORLD) {
+                            } else if (playerData.dimension == OVERWORLD) {
 
                                 String s = "Nether Coordinates  " +
                                         "X: " +
-                                        Math.round(player.XPos / 8) + " Y: " +
-                                        Math.round(player.YPos) + " Z: " +
-                                        Math.round(player.ZPos / 8);
+                                        Math.round(playerData.XPos / 8) + " Y: " +
+                                        Math.round(playerData.YPos) + " Z: " +
+                                        Math.round(playerData.ZPos / 8);
 
-                                player.localPlayer.displayClientMessage(
+                                playerData.localPlayer.displayClientMessage(
                                         Component.literal(s),
                                         false
                                 );
