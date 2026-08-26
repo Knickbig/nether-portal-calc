@@ -11,6 +11,7 @@ public class PlayerData {
     public double YPos;
     public double ZPos;
 
+    @SuppressWarnings("resource")
     public PlayerData(LocalPlayer player) {
         this.localPlayer = player;
         this.dimension = player.level().dimension();
