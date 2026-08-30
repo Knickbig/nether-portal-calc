@@ -1,9 +1,9 @@
 # nether-portal-calc
 
-## Setup
+## Summary
 
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+Automatically calculates the corresponding Nether or Overworld coordinates for your portal with a simple command.
 
-## License
+## Usage
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+The mod adds a new command named CalcPortal. If you type the command, it will automatically calculate the corresponding coords for the Nether side, and if you are in the Nether, it will calculate the corresponding coords for the Overworld.
